@@ -79,7 +79,7 @@ syn match i3ConfigKeyword /^default_orientation \w*$/ contains=i3ConfigOrientati
 
 " 4.10 Layout mode
 syn keyword i3ConfigWorkspaceLayoutOpts default stacking tabbed contained
-syn match i3ConfigKeyword /^workspace_layout \w*$/ contains=i3ConfigWorkspaceLayoutOpts
+syn match i3ConfigKeyword /^workspace_layout \(default\|stacking\|tabbed\)$/ contains=i3ConfigWorkspaceLayoutOpts
 
 " 4.11 Title alignment
 syn keyword i3ConfigTitleAlignOpts left center right contained
