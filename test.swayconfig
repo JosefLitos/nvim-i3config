@@ -117,6 +117,7 @@ gaps inner|outer|horizontal|vertical|top|left|bottom|right all|current? minus|pl
 workspace 3 gaps inner 0
 smart_gaps inverse_outer
 smart_gaps on
+smart_gaps toggle
 # 5
 bar {
 	i3bar_command status_command mode dock|hide|invisible hidden_state hide|show

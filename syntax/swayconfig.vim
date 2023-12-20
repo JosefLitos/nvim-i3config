@@ -47,6 +47,9 @@ syn region swayConfigExecBlock start=/exec\(_always\)\? {/ end=/^}$/ contains=i3
 syn keyword swayConfigFloatingModifierOpts normal inverse contained
 syn match i3ConfigKeyword /^floating_modifier [$a-zA-Z0-9+]\+ \(normal\|inverse\)$/ contains=i3ConfigVariable,i3ConfigBindModkey,swayConfigFloatingModifierOpts
 
+syn keyword swayConfigSmartGapsOpts toggle contained
+syn match i3ConfigKeyword /^smart_gaps toggle$/ contains=i3ConfigSmartGapOpts,i3ConfigBoolean,swayConfigSmartGapsOpts
+
 syn keyword swayConfigFocusFollowsMouseOpts always contained
 syn match i3ConfigKeyword /^focus_follows_mouse always$/ contains=i3ConfigBoolean,swayConfigFocusFollowsMouseOpts
 
@@ -126,6 +129,7 @@ syn region swayConfigOutput start=/^output/ skip=/\\$/ end=/$/  contains=swayCon
 syn region swayConfigOutput start=/^output .* {$/ end=/}$/  contains=swayConfigOutputKeyword,swayConfigOutputMode,swayConfigOutputOpts,swayConfigOutputOptVals,@swayConfigDeviceBlock,i3ConfigColor keepend extend
 
 " Define the highlighting.
+hi def link swayConfigSmartGapsOpts          i3ConfigOption
 hi def link swayConfigFloatingModifierOpts   i3ConfigOption
 hi def link swayConfigFocusFollowsMouseOpts  i3ConfigOption
 hi def link swayConfigBindKeyword            i3ConfigBindKeyword

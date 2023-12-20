@@ -2,8 +2,8 @@
 " Language: i3 config file
 " Original Author: Josef Litos (JosefLitos/i3config.vim)
 " Maintainer: Quentin Hibon (github user hiqua)
-" Version: 1.0.3
-" Last Change: 2023-10-31
+" Version: 1.0.4
+" Last Change: 2023-12-19
 
 " References:
 " http://i3wm.org/docs/userguide.html#configuring
