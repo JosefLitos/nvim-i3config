@@ -75,7 +75,7 @@ syn match i3ConfigKeyword /^floating_\(maximum\|minimum\)_size .*$/ contains=i3C
 
 " 4.9 Orientation
 syn keyword i3ConfigOrientationOpts vertical horizontal auto contained
-syn match i3ConfigKeyword /^default_orientation \w*$/ contains=i3ConfigOrientationOpts
+syn match i3ConfigKeyword /^default_orientation \(vertical\|horizontal\|auto\)$/ contains=i3ConfigOrientationOpts
 
 " 4.10 Layout mode
 syn keyword i3ConfigWorkspaceLayoutOpts default stacking tabbed contained
