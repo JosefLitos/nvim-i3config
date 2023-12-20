@@ -84,6 +84,7 @@ client.background $bg
 ipc-socket ~/.i3/i3-ipc.sock
 # 4.24
 focus_follows_mouse yes
+focus_follows_mouse always
 # 4.25
 mouse_warping output
 mouse_warping none

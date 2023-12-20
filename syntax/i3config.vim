@@ -142,8 +142,7 @@ syn match i3ConfigKeyword /^client\..*$/ contains=i3ConfigDotOperator,i3ConfigCl
 syn region i3ConfigParamLine matchgroup=i3ConfigKeyword start=/^ipc-socket / end=/$/ contains=i3ConfigNumber
 
 " 4.24 Focus follows mouse
-syn keyword i3ConfigFocusFollowsMouseOpts always contained
-syn match i3ConfigKeyword /^focus_follows_mouse \(yes\|no\|always\)$/ contains=i3ConfigBoolean,i3ConfigFocusFollowsMouseOpts
+syn match i3ConfigKeyword /^focus_follows_mouse \(yes\|no\)$/ contains=i3ConfigBoolean
 
 " 4.25 Mouse warping
 syn keyword i3ConfigMouseWarpingOpts output container none contained
@@ -300,7 +299,6 @@ hi def link i3ConfigWorkspaceOutput                 i3ConfigMoveType
 hi def link i3ConfigWorkspaceDir                    i3ConfigOption
 hi def link i3ConfigDotOperator                     i3ConfigOperator
 hi def link i3ConfigClientOpts                      i3ConfigOption
-hi def link i3ConfigFocusFollowsMouseOpts           i3ConfigOption
 hi def link i3ConfigMouseWarpingOpts                i3ConfigOption
 hi def link i3ConfigPopupFullscreenOpts             i3ConfigOption
 hi def link i3ConfigFocusWrappingOpts               i3ConfigOption
