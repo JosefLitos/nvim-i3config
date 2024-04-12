@@ -2,8 +2,8 @@
 " Language: i3 config file
 " Original Author: Josef Litos (JosefLitos/i3config.vim)
 " Maintainer: Quentin Hibon (github user hiqua)
-" Version: 1.1.0
-" Last Change: 2023-10-31
+" Version: 1.1.1
+" Last Change: 2024-04-13
 
 " References:
 " http://i3wm.org/docs/userguide.html#configuring
@@ -105,8 +105,7 @@ syn match i3ConfigKeyword /^no_focus .*$/ contains=i3ConfigCondition
 
 " 4.17 Variables
 syn match i3ConfigVariable /\$[0-9A-Za-z_:|[\]-]\+/
-syn keyword i3ConfigSetKeyword set contained
-syn match i3ConfigSet /^set \$.*$/ contains=i3ConfigSetKeyword,@i3ConfigSh,@i3ConfigValue,i3ConfigColor,i3ConfigBindModkey
+syn region i3ConfigSet matchgroup=i3ConfigKeyword start=/^set\ze\s\+\$/ skip=/\\$/ end=/$/ contains=@i3ConfigSh,@i3ConfigValue,i3ConfigColor,i3ConfigBindModkey
 
 " 4.18 X resources
 syn keyword i3ConfigResourceKeyword set_from_resource contained
@@ -285,7 +284,6 @@ hi def link i3ConfigBorderOpts                      i3ConfigOption
 hi def link i3ConfigEdgeOpts                        i3ConfigOption
 hi def link i3ConfigSmartBorderOpts                 i3ConfigOption
 hi def link i3ConfigVariable                        Variable
-hi def link i3ConfigSetKeyword                      i3ConfigKeyword
 hi def link i3ConfigResourceKeyword                 i3ConfigKeyword
 hi def link i3ConfigAssignKeyword                   i3ConfigKeyword
 hi def link i3ConfigAssignSpecial                   i3ConfigOption

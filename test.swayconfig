@@ -65,7 +65,10 @@ for_window [title="x200: ~/work"] floating enable, move workspace "$work", focus
 # 4.16
 no_focus [window_role="pop-up"]
 # 4.17
-set $cmd bg $(fd -H '~/Pictures/') --output 4 
+set $cmd bg $(fd -H '~/Pictures/')
+set $cmd2 \
+  var2cmd --output 4
+	"should be err, not part of ↑↑"
 # 4.18
 set_from_resource $black i3wm.color0 #000000
 # 4.19
@@ -146,6 +149,7 @@ for_window [class instance window_role window_type machine id title urgent works
 for_window [con_id floating_from tiling_from = __focused__]
 # 6.1
 bindsym $mod+p exec "notify-send \\"Hello, i3; from $USER\\""
+bindsym $mod+p exec notify-send 'commas, not, working' -u low
 # 6.2
 bindsym $mod+v split vertical horizontal toggle
 # 6.3
