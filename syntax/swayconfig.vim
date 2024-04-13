@@ -63,8 +63,8 @@ syn match swayConfigBindswitchArgument /--\(locked\|no-warn\|reload\) / containe
 syn keyword swayConfigBindswitchType lid tablet contained
 syn keyword swayConfigBindswitchState toggle contained
 syn match swayConfigBindswitchCombo /\(lid\|tablet\):\(on\|off\|toggle\) / contained contains=swayConfigBindswitchType,i3ConfigColonOperator,swayConfigBindswitchState,i3ConfigBoolean nextgroup=i3ConfigBind
-syn region i3ConfigBindswitchCombo matchgroup=i3ConfigParen start=/{$/ end=/^\s*}$/ contained contains=swayConfigBindswitchArgument,swayConfigBindswitchCombo,i3ConfigComment fold keepend extend
-syn match i3ConfigBindKeyword /^\s*bindswitch / nextgroup=swayConfigBindswitchArgument,swayConfigBindswitchCombo,swayConfigBindswitchBlock
+syn region swayConfigBindswitchCombo matchgroup=i3ConfigParen start=/{$/ end=/^\s*}$/ contained contains=swayConfigBindswitchArgument,swayConfigBindswitchCombo,i3ConfigComment fold keepend extend
+syn match i3ConfigBindKeyword /^\s*bindswitch / nextgroup=swayConfigBindswitchArgument,swayConfigBindswitchCombo
 " hack for blocks with start outside parsing range
 syn region swayConfigBlockOrphan start=/^\s\+\(lid\|tablet\):\(on\|off\|toggle\) [a-z[]/ skip=/\\$\|$\n^\s*}$/ end=/$/ contains=swayConfigBindswitchArgument,swayConfigBindswitchCombo,i3ConfigParen keepend extend
 
