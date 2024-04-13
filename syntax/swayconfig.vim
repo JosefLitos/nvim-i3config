@@ -2,7 +2,7 @@
 " Language: sway config file
 " Original Author: Josef Litos (JosefLitos/i3config.vim)
 " Maintainer: James Eapen <james.eapen@vai.org>
-" Version: 1.1.1
+" Version: 1.2.0
 " Last Change: 2024-04-13
 
 " References:
@@ -18,10 +18,6 @@ endif
 
 runtime! syntax/i3config.vim
 
-" Helpers
-syn cluster swayConfigBindLine contains=@i3ConfigBinder,i3ConfigParen
-syn cluster swayConfigBindBlockContent contains=@swayConfigBindLine,i3ConfigComment
-
 " Sway extensions to i3
 syn keyword i3ConfigActionKeyword opacity urgent shortcuts_inhibitor splitv splith splitt contained
 syn keyword i3ConfigOption set plus minus allow deny csd v h t contained
@@ -30,24 +26,22 @@ syn keyword i3ConfigConditionProp app_id pid shell contained
 
 syn keyword i3ConfigWorkspaceDir prev_on_output next_on_output contained
 
-syn match i3ConfigBindArgument /--\(locked\|to-code\|no-repeat\|input-device=[^ '"]*\|no-warn\)/ contained contains=i3ConfigColonOperator,i3ConfigVariable
-syn match i3ConfigBindComboLine /bind\(sym\|code\)\( --[a-z-]\+\(=\([^ '"]*\|['"][^'"]*['"]\)\)\?\)* [$0-9A-Za-z_+]\+ / contained contains=i3ConfigBindKeyword,i3ConfigBindArgument,i3ConfigBindCombo,i3ConfigString
-syn region i3ConfigBind matchgroup=i3ConfigBindKeyword start=/^\s*\zsbind\(switch\|gesture\)\ze / skip=/\\$/ end=/$/ contains=swayConfigBindswitch,swayConfigBindswitchArgument,swayConfigBindgesture,swayConfigBindgestureArgument,@i3ConfigBinder keepend
+syn match i3ConfigBindArgument /--\(locked\|to-code\|no-repeat\|input-device=\([^ '"]*\|['"][^'"]*['"]\)\|no-warn\) / contained contains=i3ConfigColonOperator,@i3ConfigStrVar nextgroup=i3ConfigBindArgument,i3ConfigBindCombo
 
-syn match swayConfigBindBlockHeader /^\s*bind\(sym\|code\) .*{$/ contained contains=i3ConfigBindKeyword,i3ConfigBindArgument,i3ConfigParen,i3ConfigString
-syn match swayConfigBindBlockCombo /^\s\+\(--[a-z-]\+ \)*[$a-zA-Z0-9_+]\+ \ze[a-z[]/ contained contains=i3ConfigBindArgument,i3ConfigBindCombo
-syn region i3ConfigBind start=/^\s*bind\(sym\|code\) .*{$/ end=/^\s*}\zs$/ contains=swayConfigBindBlockHeader,swayConfigBindBlockCombo,@swayConfigBindBlockContent fold keepend extend
+syn region i3ConfigBindCombo matchgroup=i3ConfigParen start=/{$/ end=/^\s*}$/ contained contains=i3ConfigBindArgument,i3ConfigBindCombo,i3ConfigComment fold keepend extend
 " hack for blocks with start outside parsing range
-syn region swayConfigBlockOrphan start=/^\s\+\(--[a-z-]\+ \)*[$a-zA-Z0-9_+]\+ [a-z[]/ skip=/\\$\|$\n^\s*}$/ end=/$/ contains=swayConfigBindBlockCombo,@swayConfigBindLine keepend extend
+syn region swayConfigBlockOrphan start=/^\s\+\(--[a-z-]\+ \)*[$a-zA-Z0-9_+]\+ [a-z[]/ skip=/\\$\|$\n^\s*}$/ end=/$/ contains=i3ConfigBindArgument,i3ConfigBindCombo,i3ConfigParen keepend extend
 
 syn keyword i3ConfigClientOpts focused_tab_title contained
 
-syn region swayConfigExecBlock start=/exec\(_always\)\? {/ end=/^}$/ contains=i3ConfigExecKeyword,i3ConfigExecAlwaysKeyword,@i3ConfigSh,i3ConfigComment fold keepend extend
+syn region swayConfigCmdBlock start=/{$/ end=/^}$/ contained contains=i3ConfigExecAction,@i3ConfigSh,i3ConfigComment fold keepend extend
+syn region swayConfigExecAlwaysBlock matchgroup=i3ConfigKeyword start=/^exec_always\ze {$/ end=/^/ contains=swayConfigCmdBlock
+syn region swayConfigExecBlock matchgroup=i3ConfigCommand start=/^exec\ze {$/ end=/^/ contains=swayConfigCmdBlock
 
 syn keyword swayConfigFloatingModifierOpts normal inverse contained
 syn match i3ConfigKeyword /^floating_modifier [$a-zA-Z0-9+]\+ \(normal\|inverse\)$/ contains=i3ConfigVariable,i3ConfigBindModkey,swayConfigFloatingModifierOpts
 
-syn match i3ConfigKeyword /^hide_edge_borders --i3 \w*$/ contains=i3ConfigEdgeKeyword,i3ConfigShParam
+syn match i3ConfigKeyword /^hide_edge_borders --i3 / contains=i3ConfigShParam nextgroup=i3ConfigEdgeOpts
 
 syn keyword i3ConfigBarOpts swaybar_command gaps height pango_markup status_edge_padding status_padding wrap_scroll tray_bindcode tray_bindsym icon_theme contained
 syn keyword i3ConfigBarOptVals overlay contained
@@ -57,36 +51,38 @@ syn keyword i3ConfigExecActionKeyword swaymsg contained
 " Sway-only options
 " Xwayland
 syn keyword swayConfigXOpt enable disable force contained
-syn match i3ConfigKeyword /^xwayland \w*$/ contains=swayConfigXOpt
+syn match i3ConfigKeyword /^xwayland / nextgroup=swayConfigXOpt
 
 " Inhibit idle
 syn keyword swayConfigInhibitKeyword inhibit_idle contained
 syn keyword swayConfigInhibitOpts focus fullscreen open none visible contained
-syn match i3ConfigAction /inhibit_idle \w*/ contained contains=swayConfigInhibitKeyword,swayConfigInhibitOpts
+syn match i3ConfigAction /inhibit_idle / contained contains=swayConfigInhibitKeyword nextgroup=swayConfigInhibitOpts
 
 " Bindswitch
-syn match swayConfigBindswitchArgument /--\(locked\|no-warn\|reload\)/ contained
+syn match swayConfigBindswitchArgument /--\(locked\|no-warn\|reload\) / contained nextgroup=swayConfigBindswitchArgument,swayConfigBindswitchCombo
 syn keyword swayConfigBindswitchType lid tablet contained
 syn keyword swayConfigBindswitchState toggle contained
-syn match swayConfigBindswitch /\(lid\|tablet\):\(on\|off\|toggle\) / contained contains=swayConfigBindswitchType,i3ConfigColonOperator,swayConfigBindswitchState,i3ConfigBoolean
-syn region i3ConfigBind matchgroup=i3ConfigBindKeyword start=/^\s*\zsbindswitch\ze\s\+.*{$/ end=/^\s*}\zs$/ contains=swayConfigBindswitch,swayConfigBindswitchArgument,@swayConfigBindBlockContent fold keepend extend
+syn match swayConfigBindswitchCombo /\(lid\|tablet\):\(on\|off\|toggle\) / contained contains=swayConfigBindswitchType,i3ConfigColonOperator,swayConfigBindswitchState,i3ConfigBoolean nextgroup=i3ConfigBind
+syn region i3ConfigBindswitchCombo matchgroup=i3ConfigParen start=/{$/ end=/^\s*}$/ contained contains=swayConfigBindswitchArgument,swayConfigBindswitchCombo,i3ConfigComment fold keepend extend
+syn match i3ConfigBindKeyword /^\s*bindswitch / nextgroup=swayConfigBindswitchArgument,swayConfigBindswitchCombo,swayConfigBindswitchBlock
 " hack for blocks with start outside parsing range
-syn region swayConfigBlockOrphan start=/^\s\+\(lid\|tablet\):\(on\|off\|toggle\) [a-z[]/ skip=/\\$\|$\n^\s*}$/ end=/$/ contains=swayConfigBindswitch,swayConfigBindswitchArgument,@swayConfigBindLine keepend extend
+syn region swayConfigBlockOrphan start=/^\s\+\(lid\|tablet\):\(on\|off\|toggle\) [a-z[]/ skip=/\\$\|$\n^\s*}$/ end=/$/ contains=swayConfigBindswitchArgument,swayConfigBindswitchCombo,i3ConfigParen keepend extend
 
 " Bindgesture
-syn match swayConfigBindgestureArgument /--\(exact\|input-device=[:0-9a-zA-Z_/-]\+\|no-warn\)/ contained
+syn match swayConfigBindgestureArgument /--\(exact\|input-device=[:0-9a-zA-Z_/-]\+\|no-warn\) / contained nextgroup=swayConfigBindgestureArgument,swayConfigBindgestureCombo
 syn keyword swayConfigBindgestureType hold swipe pinch contained
 syn keyword swayConfigBindgestureDir up down left right inward outward clockwise counterclockwise contained
-syn match swayConfigBindgesture /\(hold\(:[1-5]\)\?\|swipe\(:[3-5]\)\?\(:up\|:down\|:left\|:right\)\?\|pinch\(:[2-5]\)\?:\(+\?\(inward\|outward\|clockwise\|counterclockwise\|up\|down\|left\|right\)\)\+\) / contained contains=i3ConfigNumber,swayConfigBindgestureType,i3ConfigColonOperator,swayConfigBindgestureDir,i3ConfigBindModifier
-syn region i3ConfigBind matchgroup=i3ConfigBindKeyword start=/^\s*\zsbindgesture\ze\s\+.*{$/ end=/^\s*}\zs$/ contains=swayConfigBindgesture,swayConfigBindgestureArgument,@swayConfigBindBlockContent fold keepend extend
+syn match swayConfigBindgestureCombo /\(hold\(:[1-5]\)\?\|swipe\(:[3-5]\)\?\(:up\|:down\|:left\|:right\)\?\|pinch\(:[2-5]\)\?:\(+\?\(inward\|outward\|clockwise\|counterclockwise\|up\|down\|left\|right\)\)\+\) / contained contains=i3ConfigNumber,swayConfigBindgestureType,i3ConfigColonOperator,swayConfigBindgestureDir,i3ConfigBindModifier nextgroup=i3ConfigBind
+syn region swayConfigBindgestureCombo matchgroup=i3ConfigParen start=/{$/ end=/^\s*}$/ contained contains=swayConfigBindgestureArgument,swayConfigBindgestureCombo,i3ConfigComment fold keepend extend
+syn match i3ConfigBindKeyword /^\s*bindgesture / nextgroup=swayConfigBindgestureArgument,swayConfigBindgestureCombo
 " hack for blocks with start outside parsing range
-syn region swayConfigBlockOrphan start=/^\s\+\(--[a-z-]\+ \)*\(hold\|swipe\|pinch\):/ skip=/\\$\|$\n^\s*}$/ end=/$/ contains=swayConfigBindgesture,swayConfigBindgestureArgument,@swayConfigBindLine keepend extend
+syn region swayConfigBlockOrphan start=/^\s\+\(--[a-z-]\+ \)*\(hold\|swipe\|pinch\):/ skip=/\\$\|$\n^\s*}$/ end=/$/ contains=swayConfigBindgestureArgument,swayConfigBindgestureCombo,i3ConfigParen keepend extend
 
 " Tiling drag threshold
-syn match i3ConfigKeyword /^tiling_drag_threshold \d\+$/ contains=i3ConfigNumber
+syn match i3ConfigKeyword /^tiling_drag_threshold / nextgroup=i3ConfigNumber
 
 " Titlebar commands
-syn match i3ConfigKeyword /^titlebar_border_thickness \(\d\+\|\$\S\+\)$/ contains=@i3ConfigNumVar
+syn match i3ConfigKeyword /^titlebar_border_thickness / nextgroup=@i3ConfigNumVar
 syn match i3ConfigKeyword /^titlebar_padding \(\d\+\|\$\S\+\)\( \d\+\)\?$/ contains=@i3ConfigNumVar
 
 syn match swayConfigDeviceOperator /[*,:;!]/ contained

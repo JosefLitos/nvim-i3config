@@ -180,7 +180,7 @@ bindsym _ split vertical|horizontal|toggle, swap container with id|con_id|mark i
 # sway
 xwayland force
 bindsym _ border toggle|none|normal|pixel|csd 4, focus tiling|floating,\
-	inhibit_idle focus, inhibit_idle fullscreen, inhibit_idle open, inhibit_idle visible
+  inhibit_idle focus, inhibit_idle fullscreen, inhibit_idle open, inhibit_idle visible
 # ignoring: max_render_time off
 bindsym _ move container|window|workspace to output left,\
 	shortcuts_inhibitor enable|disable, split v|h|none|t, splitv|splith|splitt
