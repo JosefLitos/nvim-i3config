@@ -81,7 +81,12 @@ exec_always swayidle 'swaymsg output \* off' --resume 'swaymsg output "Very spec
 workspace $w1 output primary
 workspace "2: vim" output VGA1
 # 4.22
-client.focused|focused_inactive|focused_tab_title|unfocused|urgent|placeholder #000000
+client.focused #000000
+client.focused_inactive #000000
+client.focused_tab_title #000000
+client.unfocused #000000
+client.urgent #000000
+client.placeholder #000000
 client.background $bg
 # 4.23
 ipc-socket ~/.i3/i3-ipc.sock
@@ -115,7 +120,7 @@ show_marks yes
 tiling_drag modifier titlebar
 tiling_drag off
 # 4.35
-gaps inner|outer|horizontal|vertical|top|left|bottom|right all|current? minus|plus|set? 40
+gaps inner all minus 30
 workspace 3 gaps inner 0
 smart_gaps inverse_outer
 smart_gaps on
@@ -149,7 +154,7 @@ for_window [class instance window_role window_type machine id title urgent works
 for_window [con_id floating_from tiling_from = __focused__]
 # 6.1
 bindsym $mod+p exec "notify-send \\"Hello, i3; from $USER\\""
-bindsym $mod+p exec notify-send 'commas, not, working' -u low
+bindsym $mod+p exec notify-send 'commas, not, working yet' -u low
 # 6.2
 bindsym $mod+v split vertical horizontal toggle
 # 6.3
@@ -161,13 +166,14 @@ bindsym _ focus left|right|up|down|parent|child|floating|tiling|mode_toggle|next
 bindsym _ exec i3-msg 'rename workspace to "10: www"'
 # 6.5,6.9-6.11
 bindsym _ move left|right|down|up 10 px ppt absolute position center mouse scratchpad, \
-  move --no-auto-back-and-forth window|container to mark|workspace prev|next|current|number 4
+  move --no-auto-back-and-forth window|container to mark|workspace prev|next|current|number 4, \
+	move to mark target, move workspace output oname
 # 6.12
-bindsym _ resize grow|shrink|set up|down|left|right|width|height 10 px ppt
+bindsym _ resize grow width 10 px or 12 ppt
 # 6.14
 bindsym _ mark --add --toggle name, mark --replace name; unmark name
 # 6.24
-bindsym _ gaps inner|outer... all|current set|plus|minus|toggle 30
+bindsym _ gaps horizontal current toggle 30
 # 6.other
 bindsym _ split vertical|horizontal|toggle, swap container with id|con_id|mark identifier,\
 	sticky enable|disable|toggle, title_format "<b>%title</b>: %class %instance %machine",\
@@ -221,9 +227,9 @@ input type:keyboard {
 	repeat_delay|repeat_rate 220 xkb_file $name xkb_layout us,de xkb_model xkb_rules
 	xkb_switch_layout 3|next|prev xkb_variant xkb_capslock|xkb_numlock enabled|disabled
 }
-input type:!kb map_to_output $eDP-1 map_to_region $x $y $width $height map_from_region X1xY1 X2xY2
-input type:tablet_tool|type:tablet_pad tool_mode pen|eraser|brush|pencil|airbrush|*
-input type:touchpad|type:pointer|type:touch|type:switch {
+input type:!keyboard map_to_output $eDP-1 map_to_region $x $y $width $height map_from_region X1xY1 X2xY2
+input type:tablet_tool tool_mode pen|eraser|brush|pencil|airbrush|*
+input type:touchpad {
 	accel_profile adaptive|flat
 	calibration_matrix 1 2 3 4 5 6
 	click_method none|button_areas|clickfinger
@@ -257,8 +263,8 @@ output * {
 	scale 1
 	scale_filter linear|nearest|smart
 	subpixel rgb|bgr|vrgb|vbgr|none
-	background|bg "$(fd . ~/Pictures/screen/|shuf -n1)" stretch|fill|fit|center|tile #666
-	background|bg #666 solid_color
+	background "$(fd . ~/Pictures/screen/|shuf -n1)" stretch #666
+	bg #666 solid_color
 	transform 90|180|270|flipped|flipped-90|flipped-180|flipped-270|normal clockwise|anticlockwise
 	disable|enable|toggle
 	power|dpms on|off|toggle
