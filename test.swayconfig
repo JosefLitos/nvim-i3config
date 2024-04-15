@@ -166,8 +166,8 @@ bindsym _ focus left|right|up|down|parent|child|floating|tiling|mode_toggle|next
 bindsym _ exec i3-msg 'rename workspace to "10: www"'
 # 6.5,6.9-6.11
 bindsym _ move left|right|down|up 10 px ppt absolute position center mouse scratchpad, \
-  move --no-auto-back-and-forth window|container to mark|workspace prev|next|current|number 4, \
-	move to mark target, move workspace output oname
+  move --no-auto-back-and-forth window to mark target, \
+	move workspace number 4, move workspace output oname
 # 6.12
 bindsym _ resize grow width 10 px or 12 ppt
 # 6.14

@@ -49,9 +49,9 @@ syn region i3ConfigParamLine matchgroup=i3ConfigKeyword start=/include / end=/$/
 syn match i3ConfigComment /^\s*#.*$/ contained contains=i3ConfigTodo
 
 " 4.3 Fonts
+syn match i3ConfigFontSize / \d\+\(px\)\?$/ contained
 syn match i3ConfigColonOperator /:/ contained
-syn match i3ConfigFontNamespace /\w\+:/ contained contains=i3ConfigColonOperator
-syn match i3ConfigFontSize / \d\+\(px\)\?\s\?$/ contained
+syn match i3ConfigFontNamespace /pango:/ contained contains=i3ConfigColonOperator
 syn region i3ConfigParamLine matchgroup=i3ConfigKeyword start=/font / skip=/\\$/ end=/$/ contained contains=i3ConfigFontNamespace,i3ConfigFontSize,i3ConfigSeparator keepend containedin=i3ConfigBarBlock
 
 " 4.4-4.5 Keyboard/Mouse bindings
@@ -229,7 +229,7 @@ syn keyword i3ConfigWorkspaceDir number contained skipwhite nextgroup=i3ConfigWo
 syn keyword i3ConfigActionKeyword workspace contained skipwhite nextgroup=i3ConfigWorkspaceDir,i3ConfigWorkspaceIdent
 
 " 6.8.2 Renaming workspaces
-syn region i3ConfigWorkspaceFromTo start=/workspace .* to/ end=/\ze[,;]\|$/ contained contains=i3ConfigMoveType,@i3ConfigWorkspaceIdent keepend transparent
+syn region i3ConfigWorkspaceFromTo start=/workspace\( .*\)\? to/ end=/\ze[,;]\|$/ contained contains=i3ConfigMoveType,@i3ConfigWorkspaceIdent keepend transparent
 syn keyword i3ConfigActionKeyword rename contained skipwhite nextgroup=i3ConfigWorkspaceFromTo
 
 " 6.5,6.9-6.11 Moving containers
