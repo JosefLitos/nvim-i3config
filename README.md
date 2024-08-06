@@ -12,9 +12,9 @@ make it clear if your configuration is valid. It also helps in navigating throug
 - [sway-output](https://github.com/swaywm/sway/blob/master/sway/sway-output.5.scd)
 
 Condensed showcase of `swayconfig` highlighting capabilities
-![screenshot](https://github.com/JosefLitos/i3config.vim/assets/54900518/b4ddd978-2865-4ac4-95ca-fcffb3f0ab74)
+![screenshot](https://github.com/litoj/i3config.vim/assets/54900518/b4ddd978-2865-4ac4-95ca-fcffb3f0ab74)
 
-used colourscheme: [NerdContrast](https://github.com/JosefLitos/nerdcontrast.nvim)
+used colourscheme: [NerdContrast](https://github.com/litoj/nerdcontrast.nvim)
 
 ## Features
 
@@ -41,7 +41,7 @@ Similar to the installation for Vundle, just change `Plugin` to `Plug`:
 Add
 
 ```vim
-Plug 'JosefLitos/i3config.vim'
+Plug 'litoj/i3config.vim'
 ```
 
 to `.vimrc` and run `:PlugInstall`.
@@ -50,7 +50,7 @@ to `.vimrc` and run `:PlugInstall`.
 
 ```lua
 return {
-  'JosefLitos/i3config.vim',
+  'litoj/i3config.vim',
   lazy = true,
   ft = {"i3config", "swayconfig"}
 }
@@ -59,7 +59,7 @@ return {
 ### Manual installation
 
 ```sh
-git clone https://github.com/JosefLitos/i3config.vim.git /tmp/i3config.vim
+git clone https://github.com/litoj/i3config.vim.git /tmp/i3config.vim
 mkdir -p ~/.vim/syntax/
 mv /tmp/i3config.vim/syntax/i3config.vim ~/.vim/syntax/i3config.vim
 rm -rf /tmp/i3config.vim

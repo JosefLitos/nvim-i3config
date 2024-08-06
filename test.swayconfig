@@ -5,6 +5,7 @@ $var.one
 bindsym --border --whole-win Mod1+Mod4s focu 4
 for_window [app=__focused__] move workspace "$work" ; workspace "$work"
 floating_maximum_size -1  -1
+floating_modifier inverse
 workspace_layout defeult
 new_window none
 new_window pixel
@@ -68,7 +69,7 @@ no_focus [window_role="pop-up"]
 set $cmd bg $(fd -H '~/Pictures/')
 set $cmd2 \
   var2cmd --output 4
-	"should be err, not part of ↑↑"
+	"should be ERR, not part of ↑↑"
 # 4.18
 set_from_resource $black i3wm.color0 #000000
 # 4.19
@@ -201,7 +202,8 @@ bindgesture --exact --input-device=Mouse:3 --no-warn {
 	pinch:2:down pinch:5:inward pinch:4:counterclockwise nop
 }
 floating_modifier Mod1 normal
-floating_modifier Mod1 inverse
+floating_modifier $mod1 inverse
+floating_modifier none
 hide_edge_borders --i3 none
 bindsym _ opacity set|plus|minus 1, urgent enable|disable|allow|deny
 tiling_drag_threshold 3
